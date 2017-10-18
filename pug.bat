@@ -1,0 +1,1 @@
+pypugjs -c jinja index.pug templates/index.html
