@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ ppl.image }}</title>
+    <title>{{ ppl.img }}</title>
 </head>
 <body>
-<img src='/image/{{ppl.image}}'/>
+<img src='/image/{{ ppl.img }}' alt="{{ ppl.name }}"/>
+<h1>Image: {{ ppl.img }}</h1>
 <h2>{{ ppl.name }}</h2>
 <h3>{{ ppl.bio }}</h3>
 <h3>Branch: {{ ppl.branch }}</h3>
 <h3>Graduating Year: {{ ppl.year }}</h3>
+<a href="/vets/">Back</a>
 </body>
 </html>

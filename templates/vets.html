@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Veterans</title>
+</head>
+<body>
+<ul>
+    {% for vet in ppl %}
+    <li>
+        <a href="/vets/{{ vet.id }}/">{{ vet.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="/">Back</a>
+</body>
+</html>

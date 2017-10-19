@@ -1,18 +1,20 @@
 [
   {
-    "id": 0,
+    "id": "0",
     "name": "John Smith",
     "bio": "this is a test. this is only a test.",
     "branch": "Marines",
     "year": 2005,
-    "image": "johnsmith.png"
+    "img": "johnsmith.png",
+    "featured": false
   },
   {
-    "id": 1,
+    "id": "1",
     "name": "Sally Jones",
     "bio": "another text.",
     "branch": "Air Force",
     "year": 2000,
-    "image": "sallyjones.png"
+    "img": "sallyjones.png",
+    "featured": true
   }
 ]

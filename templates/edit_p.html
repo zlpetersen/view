@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<form method="post">
+    Name:<br>
+    <input type="text" name="name" value="{{ ppl.name }}"><br>
+    Biography:<br>
+    <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea>
+    <select name="branch">
+        <option value="Air Force">Air Force</option>
+        <option value="Army">Army</option>
+        <option value="Coast Guard">Coast Guard</option>
+        <option value="Marines">Marines</option>
+        <option value="Navy">Navy</option>
+    </select><br>
+    <select name="year">
+        {% for yr in yrs %}
+        <option value="{{ yr }}">{{ yr }}</option>
+        {% endfor %}
+    </select>
+    <input type="checkbox" id="featured" name="featured">
+    <label for="featured">Featured</label>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

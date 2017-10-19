@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<h1>Veterans to Edit</h1>
+<ul>
+    {% for vet in ppl %}
+    <li>
+        <a href="/admin/edit/{{ vet._id }}">{{ vet.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
