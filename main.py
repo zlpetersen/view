@@ -18,6 +18,13 @@ fs = GridFS(db)  # for getting images
 app = Flask(__name__)  # inits flask server
 mongo = PyMongo(app)  # inits mongo server
 
+logged_in = False
+
+
+def logout():
+    global logged_in
+    logged_in = False
+
 
 def check_auth(uname, pword):
     '''Checks username and password against existing ones'''
@@ -26,19 +33,7 @@ def check_auth(uname, pword):
 
 def authenticate():
     '''Sends 401 response that enables authorization'''
-    return Response('Could not verify access level\nYou have to log in with proper credentials', 401,
-                    {'WWW-Authenticate': 'Basic realm="Login Required'})
-
-
-def requires_auth(f):
-    '''Wrapper for admin only pages'''
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-    return decorated
+    return redirect('/admin/login/incorrect')
 
 
 def serve_pil_image(pil_img):
@@ -79,28 +74,53 @@ def vet(identifier):
 
 
 @app.route('/admin/edit/')
-@requires_auth
 def edit():
+    if not logged_in: return redirect('/admin/login/')
     # gets all vets as a list
     vets = []
     for vet in db.inventory.find():
         vets.append(vet)
-    return render_template('edit.html', ppl=vets)
+    return render_template('edit.html', ppl=vets, logout=logout())
 
 
 @app.route('/admin/edit/<oid>')
 def edit_p(oid):
+    if not logged_in: return redirect('/admin/login/')
     yrs = []
     for i in range(1900, 2017):
         yrs.append(i)
+    branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
+    return render_template('edit_p.html', ppl=db.inventory.find_one({"_id": ObjectId(oid)}), yrs=yrs, branches=branches)
+
+
+@app.route('/admin/edit/save/<oid>', methods=['GET', 'POST'])
+def save(oid):
     if request.method == 'POST':
         name = request.form['name']
         bio = request.form['bio']
         branch = request.form['branch']
         year = request.form['year']
-        featured = request.form['featured']
+        if request.form.get('feat', False): featured = True
+        else: featured = False
         db.inventory.update_one({'_id': ObjectId(oid)},
-                                {"name": name, "bio": bio, "branch": branch, "year": year, "featured": featured})
-        return redirect('/admin/edit/')
-    else:
-        return render_template('edit_p.html', ppl=db.inventory.find_one({"_id": ObjectId(oid)}), yrs=yrs)
+                                {'$set': {"name": name, "bio": bio, "branch": branch, "year": year, "featured": featured}})
+    return redirect('/admin/edit/')
+
+
+@app.route('/admin/login/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        uname = request.form['uname']
+        pword = request.form['pword']
+        if not check_auth(uname, pword):
+            return authenticate()
+        else:
+            global logged_in
+            logged_in = True
+            return redirect('/admin/edit/')
+    return render_template('login.html', msg="")
+
+
+@app.route('/admin/login/incorrect')
+def login_inc():
+    return render_template('login.html', msg='Incorrect Credentials')

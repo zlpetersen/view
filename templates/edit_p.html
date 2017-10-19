@@ -5,26 +5,37 @@
     <title>Edit</title>
 </head>
 <body>
-<form method="post">
+<form action="/admin/edit/save/{{ ppl._id }}" method="post">
     Name:<br>
     <input type="text" name="name" value="{{ ppl.name }}"><br>
     Biography:<br>
-    <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea>
+    <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea><br>
     <select name="branch">
-        <option value="Air Force">Air Force</option>
-        <option value="Army">Army</option>
-        <option value="Coast Guard">Coast Guard</option>
-        <option value="Marines">Marines</option>
-        <option value="Navy">Navy</option>
+        {% for branch in branches %}
+        {% if ppl.branch == branch %}
+        <option value="{{ branch }}" selected>{{ branch }}</option>
+        {% else %}
+        <option value="{{ branch }}">{{ branch }}</option>
+        {% endif %}
+        {% endfor %}
     </select><br>
     <select name="year">
         {% for yr in yrs %}
+        {% if ppl.year == yr %}
+        <option value="{{ yr }}" selected>{{ yr }}</option>
+        {% else %}
         <option value="{{ yr }}">{{ yr }}</option>
+        {% endif %}
         {% endfor %}
-    </select>
-    <input type="checkbox" id="featured" name="featured">
-    <label for="featured">Featured</label>
+    </select><br>
+    {% if ppl.featured %}
+    <input type="checkbox" id="featured" name="feat" checked>
+    {% else %}
+    <input type="checkbox" id="featured" name="feat">
+    {% endif %}
+    <label for="featured">Featured</label><br>
     <input type="submit" value="Submit">
 </form>
+<a href="/admin/edit/">Back</a>
 </body>
 </html>
