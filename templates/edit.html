@@ -9,7 +9,8 @@
 <ul>
     {% for vet in ppl %}
     <li>
-        <a href="/admin/edit/{{ vet._id }}">{{ vet.name }}</a>
+        {{ vet.name }}
+        <a href="/admin/edit/{{ vet._id }}">Edit</a>
     </li>
     {% endfor %}
 </ul>

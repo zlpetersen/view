@@ -4,8 +4,8 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from gridfs import GridFS
 from PIL import Image
-from functools import wraps
-import io
+from werkzeug.utils import secure_filename
+import io, os
 
 # opens connection to database
 client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
@@ -85,7 +85,7 @@ def edit():
 
 @app.route('/admin/edit/<oid>')
 def edit_p(oid):
-    if not logged_in: return redirect('/admin/login/')
+    #if not logged_in: return redirect('/admin/logon/' + oid)
     yrs = []
     for i in range(1900, 2017):
         yrs.append(i)
@@ -102,8 +102,14 @@ def save(oid):
         year = request.form['year']
         if request.form.get('feat', False): featured = True
         else: featured = False
+        img = request.form.get('image')
+        img = secure_filename(img)
+        im = Image.open(img)
+        image = im.read()
+        fs.put(image, filename=img)
         db.inventory.update_one({'_id': ObjectId(oid)},
-                                {'$set': {"name": name, "bio": bio, "branch": branch, "year": year, "featured": featured}})
+                                {'$set': {"name": name, "bio": bio, "branch": branch, "year": year,
+                                          "featured": featured, "img": img.name}})
     return redirect('/admin/edit/')
 
 
