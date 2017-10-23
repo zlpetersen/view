@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-    <title>Edit</title>
+    <title>New</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 {% block content %}
@@ -13,37 +13,25 @@
     </ul>
 </nav><br>
 <a id="admin" href="/admin/edit">Back</a><br><br>
-<form action="/admin/edit/save/{{ ppl._id }}" method="post" enctype="multipart/form-data">
+<form action="/admin/new/" method="POST">
     Name:<br>
-    <input type="text" name="name" value="{{ ppl.name }}"><br>
+    <input type="text" name="name"><br>
     Biography:<br>
-    <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea><br>
+    <textarea name="bio" rows="10" cols="30"></textarea><br>
     <select name="branch">
         {% for branch in branches %}
-        {% if ppl.branch == branch %}
         <option value="{{ branch }}" selected>{{ branch }}</option>
-        {% else %}
-        <option value="{{ branch }}">{{ branch }}</option>
-        {% endif %}
         {% endfor %}
     </select><br>
     <select name="year">
         {% for yr in yrs %}
-        {% if ppl.year == yr %}
         <option value="{{ yr }}" selected>{{ yr }}</option>
-        {% else %}
-        <option value="{{ yr }}">{{ yr }}</option>
-        {% endif %}
         {% endfor %}
     </select><br>
-    {% if ppl.featured %}
-    <input type="checkbox" id="featured" name="feat" checked>
-    {% else %}
     <input type="checkbox" id="featured" name="feat">
-    {% endif %}
     <label for="featured">Featured</label><br>
     Veteran Image:<br>
-    <input type="file" name="file" accept="image/*" value="/image/{{ ppl.img }}"><br><br>
+    <input type="file" name="file" accept="image/*"><br><br>
     <input type="submit" value="Submit">
 </form>
 {% endblock %}

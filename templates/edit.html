@@ -1,20 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
+{% block head %}
     <title>Edit</title>
-</head>
-<body>
-<h1>Veterans to Edit</h1>
-<ul>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='sorttable.js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+<nav id="navbar">
+    <ul>
+        <li><a href="/">Featured</a></li>
+        <li><a href="/vets/">List</a></li>
+        <li><a href="/admin/edit/" class="active">Edit</a></li>
+        <li class="lo"><a class="logout" href="{{ logout }}">Log Out</a></li>
+    </ul>
+</nav><br>
+<div onclick="location='/admin/new/'" style="background-color: #e3e3e3; border-radius: 5px;">
+    <p id="newt">New</p>
+</div>
+<h1>Add or Edit Veteran Listings</h1>
+<table id="vlistedit" style="width: 100%; cursor: default;" class="sortable">
+    <thead>
+    <tr style="background-color: #ebebeb;">
+        <th>Name</th>
+        <th>Graduating Year</th>
+        <th>Branch</th>
+        <th colspan="2">Admin</th>
+    </tr>
+    </thead>
+    <tbody>
     {% for vet in ppl %}
-    <li>
-        {{ vet.name }}
-        <a href="/admin/edit/{{ vet._id }}">Edit</a>
-    </li>
+    <tr onclick="location.href='/vets/{{ vet.id }}'">
+        <td>{{ vet.name }}</td>
+        <td>{{ vet.year }}</td>
+        <td>{{ vet.branch }}</td>
+        <th><a href="/admin/edit/{{ vet._id }}" class="btn">Edit</a></th>
+        <th><a href="/admin/delete/{{ vet._id }}" class="btn">Delete</a></th>
+    </tr>
     {% endfor %}
-</ul>
-<a href="/">Home</a>
-<a href="{{ logout }}">Log Out</a>
-</body>
-</html>
+    </tbody>
+</table>
+{% endblock %}

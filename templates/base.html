@@ -7,10 +7,17 @@
 </head>
 <body>
 <div id="content">{% block content %}{% endblock %}</div>
-<div id="footer">
-    {% block footer %}
-    &copy; Copyright 2017
-    {% endblock %}
+<div class="footer">
+    <div style="text-align: left; float: left;">
+        &copy;
+        <script type="text/javascript">
+            now = new Date()
+            theYear = now.getYear()
+            if (theYear < 1900) theYear += 1900
+            document.write(theYear)
+        </script> Zachary Petersen
+    </div>
+    <div style="text-align: right;"><a id="admin" href="/admin/edit/">Admin</a></div>
 </div>
 </body>
 </html>

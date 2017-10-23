@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!--<link rel="stylesheet" href="style.css"/>-->
-</head>
-<body>
+{% extends "base.html" %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
+{% block content %}
+<nav id="navbar">
+    <ul>
+        <li><a href="/" class="active">Featured</a></li>
+        <li><a href="/vets/">List</a></li>
+        <li><a href="/admin/edit/">Edit</a></li>
+    </ul>
+</nav><br>
 <h1>Featured</h1>
-<ul>
-    {% for vet in ppl %}
-    <li>
-        <a href="/vets/{{ vet.id }}"><img src="/image/{{ vet.img }}" width="100px"></a>
-    </li>
-    {% endfor %}
-</ul>
-<a href="/vets/">List</a>
-</body>
-</html>
+{% for vet in ppl %}
+<div class="gallery" style="display: inline-block; margin: 5px; border: 1px solid #ccc; float: left;">
+    <a href="/vets/{{ vet.id }}">
+        <!--<img style="object-fit: contain;" src="/image/{{ vet.img }}" alt="{{ vet.name }}" width="200" height="200">-->
+        <div class="img" style="background-image: url('/image/{{ vet.img }}'"></div>
+    </a>
+    <div class="desc">{{ vet.name }}</div>
+</div>
+{% endfor %}
+{% endblock %}
