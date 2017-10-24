@@ -210,4 +210,4 @@ if __name__ == '__main__':
         login_code = setattr(g, 'user', 0)
         db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
     app.debug = False
-    app.run()#'0.0.0.0', port=os.environ.get("PORT", 5000))
+    app.run('0.0.0.0', port=os.environ.get("PORT", 5000))
