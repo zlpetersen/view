@@ -209,5 +209,5 @@ if __name__ == '__main__':
     with app.app_context():
         login_code = setattr(g, 'user', 0)
         db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
-    app.debug = True
+    app.debug = False
     app.run(port=33507)
