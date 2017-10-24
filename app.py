@@ -12,6 +12,26 @@ from werkzeug.utils import secure_filename
 import io, os
 
 app = Flask(__name__)
+# opens connection to database
+client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+                     "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+                     "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+                     "Source=admin")
+# client = MongoClient()
+db = client.test  # gets actual database
+fs = GridFS(db)  # for getting images
+mongo = PyMongo(app)  # inits mongo server
+
+UPLOADED_PHOTOS_DEST = '/images/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
+photos = UploadSet('photos', IMAGES)
+
+configure_uploads(app, (photos,))
+
+with app.app_context():
+    login_code = setattr(g, 'user', 0)
+    db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
 
 def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -187,27 +207,5 @@ def new():
 
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
-    # opens connection to database
-    client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-                         "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-                         "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-                         "Source=admin")
-    # client = MongoClient()
-    db = client.test  # gets actual database
-    fs = GridFS(db)  # for getting images
-
-    app = Flask(__name__)  # inits flask server
-    mongo = PyMongo(app)  # inits mongo server
-
-    UPLOADED_PHOTOS_DEST = '/images/'
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-    app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
-    photos = UploadSet('photos', IMAGES)
-
-    configure_uploads(app, (photos,))
-
-    with app.app_context():
-        login_code = setattr(g, 'user', 0)
-        db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
     app.debug = False
     app.run('0.0.0.0', port=os.environ.get("PORT", 5000))
