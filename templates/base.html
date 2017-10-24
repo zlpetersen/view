@@ -17,7 +17,11 @@
             document.write(theYear)
         </script> Zachary Petersen
     </div>
+    {% if session['logged_in'] %}
+    <div style="text-align: right;"><a id="admin" href="/admin/logout/">Log Out</a></div>
+    {% else %}
     <div style="text-align: right;"><a id="admin" href="/admin/edit/">Admin</a></div>
+    {% endif %}
 </div>
 </body>
 </html>

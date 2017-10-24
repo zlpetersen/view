@@ -2,6 +2,7 @@
 {% block head %}
     <title>Edit</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://use.fontawesome.com/53ac9b564e.js"></script>
 {% endblock %}
 {% block content %}
 <nav id="navbar">
@@ -9,41 +10,49 @@
         <li><a href="/">Featured</a></li>
         <li><a href="/vets/">List</a></li>
         <li><a href="/admin/edit/" class="active">Edit</a></li>
-        <li class="lo"><a class="logout" href="{{ logout }}">Log Out</a></li>
+        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
     </ul>
 </nav><br>
 <a id="admin" href="/admin/edit">Back</a><br><br>
-<form action="/admin/edit/save/{{ ppl._id }}" method="post" enctype="multipart/form-data">
-    Name:<br>
-    <input type="text" name="name" value="{{ ppl.name }}"><br>
-    Biography:<br>
-    <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea><br>
-    <select name="branch">
-        {% for branch in branches %}
-        {% if ppl.branch == branch %}
-        <option value="{{ branch }}" selected>{{ branch }}</option>
+<div class="container">
+    <form action="/admin/edit/save/{{ ppl._id }}" method="post" enctype="multipart/form-data">
+        Name:<br>
+        <input type="text" name="name" value="{{ ppl.name }}"><br><br>
+        Biography:<br>
+        <textarea name="bio" rows="10" cols="30">{{ ppl.bio }}</textarea><br><br>
+        Branch:<br>
+        <select name="branch">
+            {% for branch in branches %}
+            {% if ppl.branch == branch %}
+            <option value="{{ branch }}" selected>{{ branch }}</option>
+            {% else %}
+            <option value="{{ branch }}">{{ branch }}</option>
+            {% endif %}
+            {% endfor %}
+        </select><br><br>
+        Graduating Year:<br>
+        <select name="year">
+            {% for yr in yrs %}
+            {% if ppl.year == yr %}
+            <option value="{{ yr }}" selected>{{ yr }}</option>
+            {% else %}
+            <option value="{{ yr }}">{{ yr }}</option>
+            {% endif %}
+            {% endfor %}
+        </select><br><br>
+        {% if ppl.featured %}
+        <input type="checkbox" id="featured" name="feat" checked>
         {% else %}
-        <option value="{{ branch }}">{{ branch }}</option>
+        <input type="checkbox" id="featured" name="feat">
         {% endif %}
-        {% endfor %}
-    </select><br>
-    <select name="year">
-        {% for yr in yrs %}
-        {% if ppl.year == yr %}
-        <option value="{{ yr }}" selected>{{ yr }}</option>
-        {% else %}
-        <option value="{{ yr }}">{{ yr }}</option>
-        {% endif %}
-        {% endfor %}
-    </select><br>
-    {% if ppl.featured %}
-    <input type="checkbox" id="featured" name="feat" checked>
-    {% else %}
-    <input type="checkbox" id="featured" name="feat">
-    {% endif %}
-    <label for="featured">Featured</label><br>
-    Veteran Image:<br>
-    <input type="file" name="file" accept="image/*" value="/image/{{ ppl.img }}"><br><br>
-    <input type="submit" value="Submit">
-</form>
+        <label for="featured">Featured</label><br><br>
+        Veteran Image:<br>
+        <input type="file" name="file" accept="image/*" value="/image/{{ ppl.img }}" id="file">
+        <label for="file" class="custom-file-upload">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i> Upload
+        </label><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
 {% endblock %}

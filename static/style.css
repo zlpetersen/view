@@ -156,6 +156,14 @@ tr:nth-of-type(even) {
 
 #admin:hover {
     background-color: #c3c3c3;
+}\
+
+input {
+    width: 300px;
+}
+
+select {
+    width: 300px;
 }
 
 textarea {
@@ -168,22 +176,80 @@ textarea {
 }
 
 input[type=text], select {
-    padding: 12px 20px;
+    padding: 6px 10px;
     box-sizing: border-box;
     border: 2px solid #cccc;
     border-radius: 4px;
     background-color: #f8f8f8;
+    width: 300px;
 }
 
-input[type=submit], input[type=file] {
+input[type=submit] {
     background-color: #598cc0;
-    border: none;
+    border-radius: 3px;
+    font-size: 120%;
+    border: 1px solid #ccc;
     color: white;
     text-decoration: none;
     cursor: pointer;
-    padding: 5px 10px;;
+    padding: 6px 12px;;
+    margin-top: 10px;
 }
 
 input[type=submit]:hover {
     background-color: #4680b9;
+}
+
+input[type=file] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+}
+
+#holder {
+    border: 5px dashed #ccc;
+    width: 300px;
+    min-height: 300px;
+    margin: 20px auto;
+    margin-left: 0px;
+}
+
+#holder.hover {
+    border: 5px dashed #0c0;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload {
+    width: 100%
 }

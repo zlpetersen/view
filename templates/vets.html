@@ -9,7 +9,10 @@
     <ul>
         <li><a href="/">Featured</a></li>
         <li><a href="/vets/" class="active">List</a></li>
+        {% if session['logged_in'] %}
         <li><a href="/admin/edit/">Edit</a></li>
+        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
+        {% endif %}
     </ul>
 </nav><br>
 <h2>Veterans</h2>

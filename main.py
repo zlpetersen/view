@@ -1,7 +1,7 @@
 import random
 import string
 
-from flask import Flask, render_template, send_file, Response, request, redirect, url_for, flash, abort, g
+from flask import Flask, render_template, send_file, Response, request, redirect, url_for, flash, abort, g, session
 from flask_pymongo import PyMongo
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from pymongo import MongoClient
@@ -13,43 +13,19 @@ import io, os
 
 app = Flask(__name__)
 
-# opens connection to database
-# client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-#                      "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-#                      "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-#                      "Source=admin")
-client = MongoClient()
-db = client.test  # gets actual database
-fs = GridFS(db)  # for getting images
-
-app = Flask(__name__)  # inits flask server
-mongo = PyMongo(app)  # inits mongo server
-
-UPLOADED_PHOTOS_DEST = '/images/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
-photos = UploadSet('photos', IMAGES)
-
-configure_uploads(app, (photos,))
-
-with app.app_context():
-    login_code = setattr(g, 'user', 0)
-    db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
-
-
 def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route('/admin/logout/')
 def logout():
-    setattr(g, 'user', 0)
-    db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
+    session['logged_in'] = False
+    return redirect('/')
 
 
 def check_auth(uname, pword):
     '''Checks username and password against existing ones'''
-    account = db.inventory.find_one({'account': True})
-    return uname == account['uname'] and pword == account['pword']
+    return uname == 'admin' and pword == 'secret'
 
 
 def check_id(id):
@@ -97,7 +73,7 @@ def hello():
 def vets():
     # gets all vets as a list
     vets = []
-    for vet in db.inventory.find({'vet': True}):
+    for vet in db.inventory.find():
         vets.append(vet)
     return render_template('vets.html', ppl=vets)  # renders vets template
 
@@ -109,20 +85,18 @@ def vet(identifier):
 
 @app.route('/admin/edit/')
 def edit():
-    print(g.get('user', None))
-    # if not g.get('user', None): return redirect('/admin/login/')
+    print(session.get('logged_in'))
+    if not session.get('logged_in'): return redirect('/admin/login/')
     # gets all vets as a list
     vets = []
     for vet in db.inventory.find():
         vets.append(vet)
-    return render_template('edit.html', ppl=vets, logout=logout())
+    return render_template('edit.html', ppl=vets)
 
 
-@app.route('/admin/edit/<oid>')
+@app.route('/admin/edit/<oid>/')
 def edit_p(oid):
-    global login_code
-    print(login_code)
-    #if not g.get('user', None): return redirect('/admin/login/')
+    if not session.get('logged_in'): return redirect('/admin/login/')
     yrs = []
     for i in range(1900, 2017):
         yrs.append(i)
@@ -132,8 +106,9 @@ def edit_p(oid):
 
 @app.route('/admin/edit/save/<oid>', methods=['GET', 'POST'])
 def save(oid):
+    if not session.get('logged_in'): return redirect('/admin/login/')
     if request.method == 'POST':
-        #if not getattr(g, 'user', None): return redirect('/admin/login')
+        if not session.get('logged_in'): return redirect('/admin/login/')
         name = request.form['name']
         bio = request.form['bio']
         branch = request.form['branch']
@@ -159,12 +134,9 @@ def login():
         pword = request.form['pword']
         if not check_auth(uname, pword):
             return authenticate()
-        else:
-            lc = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-            setattr(g, 'user', lc)
-            print(g.get('user', None))
-            db.inventory.update_one({'account': True}, {'$set': {'id': g.get('user', None)}})
-            return redirect('/admin/edit/')
+        session['logged_in'] = True
+        print(session.get('logged_in'))
+        return redirect('/admin/edit/')
     return render_template('login.html', msg="")
 
 
@@ -175,13 +147,18 @@ def login_inc():
 
 @app.route('/admin/delete/<oid>')
 def delete(oid):
+    if not session.get('logged_in'): return redirect('/admin/login/')
+    fs.delete(db.inventory.find_one({'_id': ObjectId(oid)})['img'])
     db.inventory.delete_one({'_id': ObjectId(oid)})
     return redirect('/admin/edit/')
 
 
 @app.route('/admin/new/', methods=['GET', 'POST'])
 def new():
+    print(session.get('logged_in'))
+    if not session.get('logged_in'): return redirect('/admin/login/')
     if request.method == 'POST':
+        if not session.get('logged_in'): return redirect('/admin/login/')
         vets = []
         for vet in db.inventory.find():
             vets.append(vet)
@@ -193,13 +170,13 @@ def new():
         else: featured = False
         db.inventory.insert_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured,
                                  'id': str(int(vets[-1]['id'])+1), 'img': ''})
-        if 'file' in request.files:
-            filename = photos.save(request.files['file'])
-            with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
-                file = file.read()
-                fs.put(file, filename=filename)
-            db.inventory.update_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured},
-                                    {'$set': {'img': filename}})
+        # if 'file' in request.files:
+        filename = photos.save(request.files['file'])
+        with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
+            file = file.read()
+            fs.put(file, filename=filename)
+        db.inventory.update_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured},
+                                {'$set': {'img': filename}})
         return redirect('/admin/edit/')
     yrs = []
     for i in range(1900, 2017):
@@ -210,5 +187,27 @@ def new():
 
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
+    # opens connection to database
+    client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+                         "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+                         "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+                         "Source=admin")
+    # client = MongoClient()
+    db = client.test  # gets actual database
+    fs = GridFS(db)  # for getting images
+
+    app = Flask(__name__)  # inits flask server
+    mongo = PyMongo(app)  # inits mongo server
+
+    UPLOADED_PHOTOS_DEST = '/images/'
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
+    photos = UploadSet('photos', IMAGES)
+
+    configure_uploads(app, (photos,))
+
+    with app.app_context():
+        login_code = setattr(g, 'user', 0)
+        db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
     app.debug = True
-    app.run()
+    app.run(port=33507)

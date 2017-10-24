@@ -2,6 +2,9 @@
 {% block head %}
     <title>New</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://use.fontawesome.com/53ac9b564e.js"></script>
+    <script src="{{ url_for('static', filename='dropzone.js') }}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block content %}
 <nav id="navbar">
@@ -9,29 +12,45 @@
         <li><a href="/">Featured</a></li>
         <li><a href="/vets/">List</a></li>
         <li><a href="/admin/edit/" class="active">Edit</a></li>
-        <li class="lo"><a class="logout" href="{{ logout }}">Log Out</a></li>
+        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
     </ul>
 </nav><br>
 <a id="admin" href="/admin/edit">Back</a><br><br>
-<form action="/admin/new/" method="POST">
-    Name:<br>
-    <input type="text" name="name"><br>
-    Biography:<br>
-    <textarea name="bio" rows="10" cols="30"></textarea><br>
-    <select name="branch">
-        {% for branch in branches %}
-        <option value="{{ branch }}" selected>{{ branch }}</option>
-        {% endfor %}
-    </select><br>
-    <select name="year">
-        {% for yr in yrs %}
-        <option value="{{ yr }}" selected>{{ yr }}</option>
-        {% endfor %}
-    </select><br>
-    <input type="checkbox" id="featured" name="feat">
-    <label for="featured">Featured</label><br>
-    Veteran Image:<br>
-    <input type="file" name="file" accept="image/*"><br><br>
-    <input type="submit" value="Submit">
-</form>
+<div class="container">
+    <form action="/admin/new/" method="POST">
+        <div id="dropper"><!--
+            <input type="file" id="imgInp"/>
+            <img id="blah" src="#" alt="Vet Image"/>
+            <p>Hello</p>-->
+        </div>
+        <div id="otherform">
+            Name:<br>
+            <input type="text" name="name"><br><br>
+            Biography:<br>
+            <textarea name="bio" rows="10" cols="30"></textarea><br><br>
+            Branch:<br>
+            <select name="branch">
+                {% for branch in branches %}
+                <option value="{{ branch }}" selected>{{ branch }}</option>
+                {% endfor %}
+            </select><br><br>
+            Graduating Year:<br>
+            <select name="year">
+                {% for yr in yrs %}
+                <option value="{{ yr }}" selected>{{ yr }}</option>
+                {% endfor %}
+            </select><br><br>
+            <input type="checkbox" id="featured" name="feat">
+            <label for="featured">Featured</label><br><br>
+            Veteran Image:<br>
+            <input type="file" name="file" accept="image/*" id="file" onchange="readURL(this);">
+            <label for="file" class="custom-file-upload" onchange="readURL(this);">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i> Upload
+            </label><br><br>
+                <img id="output-image"/>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</div>
+
 {% endblock %}
