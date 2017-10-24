@@ -168,7 +168,7 @@ def login_inc():
 @app.route('/admin/delete/<oid>')
 def delete(oid):
     if not session.get('logged_in'): return redirect('/admin/login/')
-    fs.delete(db.inventory.find_one({'_id': ObjectId(oid)})['img'])
+    #fs.delete(db.inventory.find_one({'_id': ObjectId(oid)})['img'])
     db.inventory.delete_one({'_id': ObjectId(oid)})
     return redirect('/admin/edit/')
 
