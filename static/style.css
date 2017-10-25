@@ -352,6 +352,8 @@ input[type=file]
 .vetDialog > div
 {
     width: 800px;
+    bottom: 0;
+    height: 500px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -363,7 +365,6 @@ input[type=file]
 .newDialog > div
 {
     width: 600px;
-    height: 400px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
