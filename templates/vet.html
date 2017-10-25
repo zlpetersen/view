@@ -4,19 +4,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 {% block content %}
-<nav id="navbar">
-    <ul>
-        <li><a href="/">Featured</a></li>
-        <li><a href="/vets/">List</a></li>
-        {% if session['logged_in'] %}
-        <li><a href="/admin/edit/">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-        {% endif %}
-    </ul>
-</nav><br>
-<img src='/image/{{ ppl.img }}' alt="{{ ppl.name }}"/>
-<h2>{{ ppl.name }}</h2>
-<h3>{{ ppl.bio }}</h3>
-<h3>Branch: {{ ppl.branch }}</h3>
-<h3>Graduating Year: {{ ppl.year }}</h3>
+<br><br><div style="text-align: center; width: 75%; margin: 0 auto;">
+    <img src='/image/{{ ppl.img }}' alt="{{ ppl.name }}"/>
+    <h2>{{ ppl.name }}</h2>
+    <h4>{{ ppl.bio }}</h4>
+    <h4>Branch: {{ ppl.branch }}</h4>
+    <h4>Graduating Year: {{ ppl.year }}</h4>
+    <br><br>
+</div>
 {% endblock %}

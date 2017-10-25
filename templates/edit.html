@@ -6,17 +6,30 @@
 {% endblock %}
 {% block content %}
 <nav id="navbar">
-    <ul>
-        <li><a href="/">Featured</a></li>
-        <li><a href="/vets/">List</a></li>
-        <li><a href="/admin/edit/" class="active">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-    </ul>
-</nav><br>
-<div onclick="location='/admin/new/'" style="background-color: #e3e3e3; border-radius: 5px;">
-    <p id="newt">New</p>
+<a href="#openNewModal" style="background-color: #e3e3e3; border-radius: 2px;" id="newt">New</a>
+<div id="openNewModal" class="newDialog" style="text-align: center;">
+    <div class="modalWrapper">
+        <h3>New</h3>
+        <a href="#closeNewModal" title="Close" class="close">X</a>
+        <div class="container">
+            <div class="left-div left-text" style="height: 125px;">
+                <p>Create with only name</p>
+                <form action="/admin/new/" method="POST">
+                    <input style="width: 200px;" type="text" name="name" placeholder="Name"/>
+                    <input type="hidden" name="bio" value="No information. If you have some you would like to submit, please email it to the school."/>
+                    <input type="hidden" name="branch" value="Unknown"/>
+                    <input type="hidden" name="year" value="Unknown"/><br>
+                    <input style="width: 200px;" type="submit" class="formbtn" value="Create"/>
+                </form>
+            </div>
+            <div class="right-div right-text" style="height: 125px;">
+                <p>Create complete</p><br>
+                <a href="/admin/new/" class="formbtn">Create</a>
+            </div>
+        </div>
+    </div>
 </div>
-<h1>Add or Edit Veteran Listings</h1>
+    <h1>Add or Edit Veteran Listings</h1>
 <table id="vlistedit" style="width: 100%; cursor: default;" class="sortable">
     <thead>
     <tr style="background-color: #ebebeb;">
@@ -28,12 +41,22 @@
     </thead>
     <tbody>
     {% for vet in ppl %}
-    <tr onclick="location.href='/vets/{{ vet.id }}'">
+    <tr>
         <td>{{ vet.name }}</td>
         <td>{{ vet.year }}</td>
         <td>{{ vet.branch }}</td>
         <th><a href="/admin/edit/{{ vet._id }}" class="btn">Edit</a></th>
-        <th><a href="/admin/delete/{{ vet._id }}" class="btn">Delete</a></th>
+        <th>
+            <a href="#openModal" class="btn">Delete</a>
+            <div id="openModal" class="modalDialog" style="text-align: center;">
+                <div class="modalWrapper">
+                    <h3>Are You Sure?</h3>
+                    <a href="#close" title="Close" class="close">X</a>
+                    <br><a href="#close" class="formbtn">Cancel</a>
+                    <a href="/admin/delete/{{ vet._id }}" class="formbtn">Delete</a><br><br><br>
+                </div>
+            </div>
+        </th>
     </tr>
     {% endfor %}
     </tbody>

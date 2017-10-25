@@ -7,22 +7,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block content %}
-<nav id="navbar">
-    <ul>
-        <li><a href="/">Featured</a></li>
-        <li><a href="/vets/">List</a></li>
-        <li><a href="/admin/edit/" class="active">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-    </ul>
-</nav><br>
-<a id="admin" href="/admin/edit">Back</a><br><br>
-<div class="container">
-    <form action="/admin/new/" method="POST">
-        <div id="dropper"><!--
-            <input type="file" id="imgInp"/>
-            <img id="blah" src="#" alt="Vet Image"/>
-            <p>Hello</p>-->
-        </div>
+<div class="container" style="text-align: center;">
+    <br><h2>New</h2><br>
+    <form action="/admin/new/" method="POST" enctype="multipart/form-data">
         <div id="otherform">
             Name:<br>
             <input type="text" name="name"><br><br>
@@ -47,8 +34,9 @@
             <label for="file" class="custom-file-upload" onchange="readURL(this);">
                 <i class="fa fa-arrow-up" aria-hidden="true"></i> Upload
             </label><br><br>
-                <img id="output-image"/>
-            <input type="submit" value="Submit">
+                <img id="output-image"/><br>
+            <a class="formbtn" href="/admin/edit/">Cancel</a>
+            <input type="submit" class="formbtn" value="Submit" style="width: 150px;">
         </div>
     </form>
 </div>

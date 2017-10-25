@@ -12,6 +12,28 @@ from werkzeug.utils import secure_filename
 import io, os
 
 app = Flask(__name__)
+# opens connection to database
+#client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+#                     "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+#                     "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+#                     "Source=admin")
+client = MongoClient()
+db = client.test  # gets actual database
+fs = GridFS(db)  # for getting images
+
+#app = Flask(__name__)  # inits flask server
+mongo = PyMongo(app)  # inits mongo server
+
+UPLOADED_PHOTOS_DEST = '/images/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
+photos = UploadSet('photos', IMAGES)
+
+configure_uploads(app, (photos,))
+
+with app.app_context():
+    login_code = setattr(g, 'user', 0)
+    db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
 
 def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -61,8 +83,21 @@ def show(id):
 
 
 @app.route('/')
-def hello():
+def home_r():
+    return redirect('/home/')
+
+
+@app.route('/home/', methods=['GET', 'POST'])
+def home():
     # gets all featured veterans from GridFS in the database
+    if request.method == 'POST':
+        uname = request.form['uname']
+        pword = request.form['pword']
+        if not check_auth(uname, pword):
+            return authenticate()
+        session['logged_in'] = True
+        print(session.get('logged_in'))
+        return redirect('/admin/edit/')
     vets = []
     for vet in db.inventory.find({"featured": True}):
         vets.append(vet)
@@ -137,7 +172,6 @@ def login():
         session['logged_in'] = True
         print(session.get('logged_in'))
         return redirect('/admin/edit/')
-    return render_template('login.html', msg="")
 
 
 @app.route('/admin/login/incorrect')
@@ -170,13 +204,13 @@ def new():
         else: featured = False
         db.inventory.insert_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured,
                                  'id': str(int(vets[-1]['id'])+1), 'img': ''})
-        # if 'file' in request.files:
-        filename = photos.save(request.files['file'])
-        with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
-            file = file.read()
-            fs.put(file, filename=filename)
-        db.inventory.update_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured},
-                                {'$set': {'img': filename}})
+        if 'file' in request.files:
+            filename = photos.save(request.files['file'])
+            with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
+                file = file.read()
+                fs.put(file, filename=filename)
+            db.inventory.update_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured},
+                                    {'$set': {'img': filename}})
         return redirect('/admin/edit/')
     yrs = []
     for i in range(1900, 2017):
@@ -187,27 +221,5 @@ def new():
 
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
-    # opens connection to database
-    client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-                         "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-                         "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-                         "Source=admin")
-    # client = MongoClient()
-    db = client.test  # gets actual database
-    fs = GridFS(db)  # for getting images
-
-    app = Flask(__name__)  # inits flask server
-    mongo = PyMongo(app)  # inits mongo server
-
-    UPLOADED_PHOTOS_DEST = '/images/'
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-    app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
-    photos = UploadSet('photos', IMAGES)
-
-    configure_uploads(app, (photos,))
-
-    with app.app_context():
-        login_code = setattr(g, 'user', 0)
-        db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
     app.debug = True
-    app.run(port=33507)
+    app.run('localhost', 5000)

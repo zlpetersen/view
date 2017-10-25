@@ -5,14 +5,6 @@
     <script src="https://use.fontawesome.com/53ac9b564e.js"></script>
 {% endblock %}
 {% block content %}
-<nav id="navbar">
-    <ul>
-        <li><a href="/">Featured</a></li>
-        <li><a href="/vets/">List</a></li>
-        <li><a href="/admin/edit/" class="active">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-    </ul>
-</nav><br>
 <a id="admin" href="/admin/edit">Back</a><br><br>
 <div class="container">
     <form action="/admin/edit/save/{{ ppl._id }}" method="post" enctype="multipart/form-data">

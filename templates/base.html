@@ -3,25 +3,71 @@
 <head>
     {% block head %}
     <meta charset="UTF-8">
+    <script>
+        function $(sel) {
+            return document.querySelector(sel);
+        }
+
+        var dialog = $('dialog');
+        var main = $('main');
+
+        ${'button').onclick = function() {
+            if (dialog.close) {
+                dialog.close();
+            }
+            else {
+                dialog.removeAttribute('open');
+            }
+
+            main.classList.remove('de-emphasized');
+        }
+    </script>
     {% endblock %}
 </head>
 <body>
-<div id="content">{% block content %}{% endblock %}</div>
-<div class="footer">
-    <div style="text-align: left; float: left;">
-        &copy;
-        <script type="text/javascript">
-            now = new Date()
-            theYear = now.getYear()
-            if (theYear < 1900) theYear += 1900
-            document.write(theYear)
-        </script> Zachary Petersen
+<nav id="navbar">
+    <ul>
+        <li><a href="/" {% if request.path=='/home/' %} class="active" {% endif %}>Featured</a></li>
+        <li><a href="/vets/" {% if request.path=='/vets/' %} class="active" {% endif %}>List</a></li>
+        {% if session['logged_in'] %}
+        <li><a href="/admin/edit/" {% if request.path=='/admin/edit/' %} class="active" {% endif %}>Edit</a></li>
+        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<div id="content">
+    <div class="body">
+        {% block content %}{% endblock %}
     </div>
-    {% if session['logged_in'] %}
-    <div style="text-align: right;"><a id="admin" href="/admin/logout/">Log Out</a></div>
-    {% else %}
-    <div style="text-align: right;"><a id="admin" href="/admin/edit/">Admin</a></div>
-    {% endif %}
+    <div class="footer">
+        <div style="text-align: left; float: left;">
+            &copy;
+            <script type="text/javascript">
+                now = new Date()
+                theYear = now.getYear()
+                if (theYear < 1900) theYear += 1900
+                document.write(theYear)
+            </script> Zachary Petersen
+        </div>
+        {% if session['logged_in'] %}
+        <div style="text-align: right;"><a id="admin" href="/admin/logout/">Log Out</a></div>
+        {% else %}
+        <div style="text-align: right;">
+            <a id="admin" href="#openModal">Admin</a>
+        </div>
+        <div id="openModal" class="modalDialog" style="text-align: center;">
+            <div id="modalWrapper">
+                <h2>Log In</h2>
+                <a href="#close" title="Close" class="close">X</a>
+                <form action="/admin/login/" method="POST" id="loginform">
+                    <br><input style="width: 300px;" type="text" name="uname" placeholder="username"><br>
+                    <br><input style="width: 300px;" type="password" name="pword" placeholder="password"><br>
+                    <br><input style="width: 300px;" type="submit" class="formbtn" value="Log In">
+                </form><br>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
 </body>
 </html>

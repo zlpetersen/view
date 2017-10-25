@@ -1,11 +1,13 @@
-﻿﻿﻿﻿div.gallery {
+﻿﻿﻿﻿div.gallery
+{
     margin: 5px;
     border: 1px solid #ccc;
     float: left;
     width: 200px;
 }
 
-div.img {
+div.img
+{
     position: relative;
     float: left;
     width: 250px;
@@ -15,18 +17,21 @@ div.img {
     background-size: cover;
 }
 
-div.gallery:hover {
+div.gallery:hover
+{
     border: 1px solid #777;
     background-color: #ccc;
 }
 
-div.desc {
+div.desc
+{
     width: 200px;
     margin: 20px;
     text-align: center;
 }
 
-body {
+body
+{
     font-family: "Verdana";
     padding: 30px;
     background-color: #fff;
@@ -34,7 +39,8 @@ body {
 
 
 
-#navbar ul {
+#navbar ul
+{
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -43,59 +49,77 @@ body {
     border-radius: 3px;
 }
 
-#navbar li {
+#navbar li
+{
     float: left;
 }
 
-#navbar li a {
+#navbar li a
+{
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
-#navbar li a.logout:hover {
+#navbar li a.logout:hover
+{
     background-color: #d5b75d;
 }
 
-#navbar li a:hover {
+#navbar li a:hover
+{
     background-color: #454556;
 }
 
-#navbar .active:hover {
+#navbar .active:hover
+{
     background-color: #4680b9;
 }
 
-#navbar .active {
+#navbar .active
+{
     background-color: #598cc0;
 }
 
-#navbar .lo {
+#navbar .lo
+{
     text-align: right;
     float: right;
 }
 
-#navbar .logout {
+#navbar .logout
+{
     display: block;
     text-align: center;
     background-color: #c0a659;
 }
 
-.footer {
+.footer
+{
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     padding: 1rem;
     background-color: #efefef;
+    overflow: hidden;
+    margin: auto;
 }
 
-#newt {
+html
+{
+    position: relative;
+    min-height: 100%;
+}
+
+#newt
+{
     color: black;
     text-align: right;
     float: right;
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 0;
     background-color: #e3e3e3;
     border-radius: 3px;
     box-shadow: none;
@@ -103,38 +127,42 @@ body {
     cursor: pointer;
 }
 
-#newt:hover {
-    color: black;
-    text-align: right;
-    float: right;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #c3c3c3;
-    border-radius: 3px;
-    box-shadow: none;
-    text-decoration: none;
-    cursor: pointer;
+.body
+{
+    min-height: 700px;
+    margin-bottom: 100px;
+    clear: both;
 }
 
-table, th, td {
+#newt:hover
+{
+    background-color: #c3c3c3;
+}
+
+table, th, td
+{
     border: 1px solid #c3c3c3;
     border-collapse: collapse;
     padding: 15px;
 }
 
-tr:nth-of-type(odd) {
-    background-color: #eeeee;
+tr:nth-of-type(odd)
+{
+    background-color: #f9f9f9;
 }
 
-tr:nth-of-type(even) {
+tr:nth-of-type(even)
+{
     background-color: #ebebeb;
 }
 
-#vlist tr:hover {
+#vlist tr:hover
+{
     background-color: #c3c3c3;
 }
 
-.btn {
+.btn
+{
     color: white;
     background-color: #598cc0;
     border-radius: 3px;
@@ -143,68 +171,97 @@ tr:nth-of-type(even) {
     font-weight: normal;
 }
 
-.btn:hover {
+.btn:hover
+{
     background-color: #4680b9;
 }
 
-#admin {
+#admin
+{
     color: black;
     padding: 5px;
     background-color: #e3e3e3;
     text-decoration: none;
 }
 
-#admin:hover {
+#admin:hover
+{
     background-color: #c3c3c3;
-}\
+}
 
-input {
+input
+{
+    width: 50%;
+    font-family: "Verdana";
+}
+
+select
+{
     width: 300px;
 }
 
-select {
-    width: 300px;
-}
-
-textarea {
-    padding: 12px 20px;
+textarea
+{
+    padding: 5px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     background-color: #f8f8f8;
     resize: none;
+    font-family: "Verdana";
+    font-size: 85%;
+    width: 50%;
+    height: 35vh;
 }
 
-input[type=text], select {
+input[type=text], input[type=password], select
+{
     padding: 6px 10px;
     box-sizing: border-box;
     border: 2px solid #cccc;
     border-radius: 4px;
     background-color: #f8f8f8;
-    width: 300px;
+    width: 25%;
+    font-family: "Verdana";
 }
 
-input[type=submit] {
+input[type=checkbox]
+{
+    width: 10px;
+}
+
+.formbtn, input[type=submit]
+{
     background-color: #598cc0;
     border-radius: 3px;
-    font-size: 120%;
+    font-size: 115%;
     border: 1px solid #ccc;
     color: white;
     text-decoration: none;
     cursor: pointer;
-    padding: 6px 12px;;
+    padding: 8px 40px;;
     margin-top: 10px;
+    font-family: "Verdana";
+    width: 25%;
 }
 
-input[type=submit]:hover {
+.formbtn:hover
+{
     background-color: #4680b9;
 }
 
-input[type=file] {
+input[type=dropdown]
+{
+    width: 25%;
+}
+
+input[type=file]
+{
     display: none;
 }
 
-.custom-file-upload {
+.custom-file-upload
+{
     border: 1px solid #ccc;
     border-radius: 3px;
     display: inline-block;
@@ -213,12 +270,14 @@ input[type=file] {
     cursor: pointer;
 }
 
-.custom-file-upload:hover {
+.custom-file-upload:hover
+{
     background-color: #ddd;
     border: 1px solid #ddd;
 }
 
-#holder {
+#holder
+{
     border: 5px dashed #ccc;
     width: 300px;
     min-height: 300px;
@@ -226,17 +285,20 @@ input[type=file] {
     margin-left: 0px;
 }
 
-#holder.hover {
+#holder.hover
+{
     border: 5px dashed #0c0;
 }
 
-.btn-file {
+.btn-file
+{
     position: relative;
     overflow: hidden;
 }
 
-.btn-file input[type=file] {
-    position: absolute;
+.btn-file input[type=file]
+{
+    position: fixed;
     top: 0;
     right: 0;
     min-width: 100%;
@@ -250,6 +312,141 @@ input[type=file] {
     display: block;
 }
 
-#img-upload {
+#img-upload
+{
     width: 100%
+}
+
+.modalDialog, .vetDialog, .newDialog
+{
+    position: fixed;
+    background: rgba(0, 0, 0, .8);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 200ms ease-in;
+    -moz-transition: opacity 200ms ease-in;
+    transition: opacity 200ms ease-in;
+    pointer-events: none;
+}
+
+.modalDialog:target, .vetDialog:target, .newDialog:target
+{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modalDialog > div
+{
+	width: 400px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 1px;
+	background: #fff;
+}
+
+.vetDialog > div
+{
+    width: 800px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 1px;
+    background: #fff;
+    text-align: center;
+}
+
+.newDialog > div
+{
+    width: 600px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 1px;
+    background: #fff;
+    text-align: center;
+}
+
+.modalWrapper
+{
+    padding: 30px;
+    text-align: center;
+    background-color: #f3f3f3;
+}
+
+.close
+{
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #00d9ff; }
+
+img
+{
+    max-width: 75%;
+    size: auto;
+}
+
+.container
+{
+    text-align: center;
+    padding: 15px;
+}
+
+.left-div
+{
+    display: inline-block;
+    max-width: 300px;
+    text-align: left;
+    padding: 30px;
+    background-color: #ddd;
+    border-radius: 3px;
+    margin: 15px;
+    padding-top: 5px;
+    vertical-align: top;
+}
+
+.right-div
+{
+    display: inline-block;
+    max-width: 300px;
+    text-align: left;
+    padding: 30px;
+    padding-top: 5px;
+    background-color: #ddd;
+    border-radius: 3px;
+    margin: 15px;
+}
+
+.left-text, .right-text
+{
+    font: 16px 'Verdana', monospace;
+        color: #000;
+}
+
+@media.screen and (max-width: 600px)
+{
+    .left-div, .right-div
+    {
+        max-width: 100%;
+    }
 }

@@ -1,23 +1,27 @@
 {% extends "base.html" %}
 {% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
 {% block content %}
-<nav id="navbar">
-    <ul>
-        <li><a href="/" class="active">Featured</a></li>
-        <li><a href="/vets/">List</a></li>
-        {% if session['logged_in'] %}
-        <li><a href="/admin/edit/">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-        {% endif %}
-    </ul>
-</nav><br>
 <h1>Featured</h1>
 {% for vet in ppl %}
 <div class="gallery" style="display: inline-block; margin: 5px; border: 1px solid #ccc; float: left;">
-    <a href="/vets/{{ vet.id }}">
+    <a href="#openVet{{ vet.name }}Modal">
         <!--<img style="object-fit: contain;" src="/image/{{ vet.img }}" alt="{{ vet.name }}" width="200" height="200">-->
         <div class="img" style="background-image: url('/image/{{ vet.img }}'"></div>
     </a>
+    <div id="openVet{{ vet.name }}Modal" class="vetDialog">
+        <div id="modalWrapper">
+            <a href="#closeVet" title="Close" class="close">X</a>
+            {% if vet.img is defined %}
+            <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
+            {% else %}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="No Image"/>
+            {% endif %}
+            <h3>{{ vet.name }}</h3>
+            <h4>{{ vet.bio }}</h4>
+            <h4>Branch: {{ vet.branch }}</h4>
+            <h4>Graduating Year: {{ vet.year }}</h4>
+        </div>
+    </div>
     <div class="desc">{{ vet.name }}</div>
 </div>
 {% endfor %}

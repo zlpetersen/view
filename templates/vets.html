@@ -5,16 +5,6 @@
     <script src="{{ url_for('static', filename='sorttable.js') }}" type="text/javascript"></script>
 {% endblock %}
 {% block content %}
-<nav id="navbar">
-    <ul>
-        <li><a href="/">Featured</a></li>
-        <li><a href="/vets/" class="active">List</a></li>
-        {% if session['logged_in'] %}
-        <li><a href="/admin/edit/">Edit</a></li>
-        <li class="lo"><a class="logout" href="/admin/logout/">Log Out</a></li>
-        {% endif %}
-    </ul>
-</nav><br>
 <h2>Veterans</h2>
 <table id="vlist" style="width: 100%; cursor: pointer;" class="sortable">
     <thead>
@@ -26,11 +16,25 @@
     </thead>
     <tbody>
     {% for vet in ppl %}
-    <tr onclick="location.href='/vets/{{ vet.id }}'">
+    <tr onclick="window.opener.location.href='#openVet{{ vet.name }}Modal'"><!--onclick="location.href='/vets/{{ vet.id }}'">-->
         <td>{{ vet.name }}</td>
         <td>{{ vet.year }}</td>
         <td>{{ vet.branch }}</td>
     </tr>
+    <div id="openVet{{ vet.name }}Modal" class="vetDialog">
+        <div id="modalWrapper">
+            <a href="#closeVet" title="Close" class="close">X</a>
+            {% if vet.img is defined %}
+            <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
+            {% else %}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="No Image"/>
+            {% endif %}
+            <h3>{{ vet.name }}</h3>
+            <h4>{{ vet.bio }}</h4>
+            <h4>Branch: {{ vet.branch }}</h4>
+            <h4>Graduating Year: {{ vet.year }}</h4>
+        </div>
+    </div>
     {% endfor %}
     </tbody>
 </table>
