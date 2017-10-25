@@ -202,8 +202,12 @@ def new():
         year = request.form['year']
         if request.form.get('feat', False): featured = True
         else: featured = False
+        if vets:
+          the_id = str(int(vets[-1]['id'])+1)
+        else:
+          the_id = 0
         db.inventory.insert_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured,
-                                 'id': str(int(vets[-1]['id'])+1), 'img': ''})
+                                 'id': the_id, 'img': ''})
         if 'file' in request.files:
             filename = photos.save(request.files['file'])
             with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
