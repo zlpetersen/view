@@ -13,11 +13,11 @@ import io, os
 
 app = Flask(__name__)
 # opens connection to database
-#client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-#                     "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-#                     "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-#                     "Source=admin")
-client = MongoClient()
+client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+                    "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+                    "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+                    "Source=admin")
+#client = MongoClient()
 db = client.test  # gets actual database
 fs = GridFS(db)  # for getting images
 
