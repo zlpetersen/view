@@ -221,5 +221,6 @@ def new():
 
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
-    app.debug = True
-    app.run('localhost', 5000)
+    app.debug = False
+    port = int(os.environ.get("PORT", 5000))
+    app.run('0.0.0.0', port)
