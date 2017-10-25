@@ -319,7 +319,7 @@ input[type=file]
 
 .modalDialog, .vetDialog, .newDialog
 {
-    position: absolute;
+    position: relative;
     background: rgba(0, 0, 0, .8);
     top: 0;
     right: 0;
