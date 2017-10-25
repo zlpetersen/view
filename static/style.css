@@ -319,7 +319,7 @@ input[type=file]
 
 .modalDialog, .vetDialog, .newDialog
 {
-    position: absolute;
+    position: fixed;
     background: rgba(0, 0, 0, .8);
     top: 0;
     right: 0;
@@ -352,8 +352,6 @@ input[type=file]
 .vetDialog > div
 {
     width: 800px;
-    bottom: 0;
-    height: 500px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;

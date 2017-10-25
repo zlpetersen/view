@@ -13,18 +13,18 @@ import io, os
 
 app = Flask(__name__)
 # opens connection to database
-client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-                    "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-                    "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-                    "Source=admin")
-#client = MongoClient()
+#client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+#                     "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+#                     "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+#                     "Source=admin")
+client = MongoClient()
 db = client.test  # gets actual database
 fs = GridFS(db)  # for getting images
 
 #app = Flask(__name__)  # inits flask server
 mongo = PyMongo(app)  # inits mongo server
 
-UPLOADED_PHOTOS_DEST = '/tmp/'
+UPLOADED_PHOTOS_DEST = '/images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
 photos = UploadSet('photos', IMAGES)
@@ -202,12 +202,8 @@ def new():
         year = request.form['year']
         if request.form.get('feat', False): featured = True
         else: featured = False
-        if vets:
-          the_id = str(int(vets[-1]['id'])+1)
-        else:
-          the_id = 0
         db.inventory.insert_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured,
-                                 'id': the_id, 'img': ''})
+                                 'id': str(int(vets[-1]['id'])+1), 'img': ''})
         if 'file' in request.files:
             filename = photos.save(request.files['file'])
             with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
@@ -226,5 +222,4 @@ def new():
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
     app.debug = True
-    port = int(os.environ.get("PORT", 5000))
-    app.run('0.0.0.0', port)
+    app.run('localhost', 5000)
