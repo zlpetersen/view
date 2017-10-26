@@ -47,8 +47,8 @@
         <td>{{ vet.branch }}</td>
         <th><a href="/admin/edit/{{ vet._id }}" class="btn">Edit</a></th>
         <th>
-            <a href="#openModal" class="btn">Delete</a>
-            <div id="openModal" class="modalDialog" style="text-align: center;">
+            <a href="#openModal{{ vet.id }}" class="btn">Delete</a>
+            <div id="openModal{{ vet.id }}" class="modalDialog" style="text-align: center;" onclick="location.href='#close'">
                 <div class="modalWrapper">
                     <h3>Are You Sure?</h3>
                     <a href="#close" title="Close" class="close">X</a>

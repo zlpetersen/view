@@ -13,11 +13,11 @@ import io, os
 
 app = Flask(__name__)
 # opens connection to database
-#client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
-#                     "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
-#                     "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
-#                     "Source=admin")
-client = MongoClient()
+client = MongoClient("mongodb://rfhs:wildcat1@veterans-shard-00-00-0nuxa.mongodb.net:27017,"
+                    "veterans-shard-00-01-0nuxa.mongodb.net:27017,"
+                    "veterans-shard-00-02-0nuxa.mongodb.net:27017/test?ssl=true&replicaSet=Veterans-shard-0&auth"
+                    "Source=admin")
+#client = MongoClient()
 db = client.test  # gets actual database
 fs = GridFS(db)  # for getting images
 
@@ -150,7 +150,7 @@ def save(oid):
         year = request.form['year']
         if request.form.get('feat', False): featured = True
         else: featured = False
-        if 'file' in request.files:
+        if request.files.get('file', None):
             filename = photos.save(request.files['file'])
             with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
                 file = file.read()
@@ -204,7 +204,7 @@ def new():
         else: featured = False
         db.inventory.insert_one({'name': name, 'bio': bio, 'branch': branch, 'year': year, 'featured': featured,
                                  'id': str(int(vets[-1]['id'])+1), 'img': ''})
-        if 'file' in request.files:
+        if request.files.get('file', None):
             filename = photos.save(request.files['file'])
             with open(app.config['UPLOADED_PHOTOS_DEST'] + filename, 'rb') as file:
                 file = file.read()
@@ -221,6 +221,5 @@ def new():
 
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
-    app.debug = False
-    port = int(os.environ.get("PORT", 5000))
-    app.run('0.0.0.0', port)
+    app.debug = True
+    app.run('0.0.0.0', int(os.environ.get('PORT', 5000)))

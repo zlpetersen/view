@@ -11,10 +11,10 @@
     <div id="openVet{{ vet.name }}Modal" class="vetDialog">
         <div id="modalWrapper">
             <a href="#closeVet" title="Close" class="close">X</a>
-            {% if vet.img is defined %}
+            <br><br>{% if vet.img != "" %}
             <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
             {% else %}
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/No_image_3x4.svg" alt="No Image"/>
+            <img src="/image/no_image.jpg" alt="No Image"/>
             {% endif %}
             <h3>{{ vet.name }}</h3>
             <h4>{{ vet.bio }}</h4>
