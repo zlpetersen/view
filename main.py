@@ -35,6 +35,9 @@ with app.app_context():
     login_code = setattr(g, 'user', 0)
     db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
 
+with app.test_request_context():
+    rule = request.url_rule
+
 def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -42,6 +45,7 @@ def allowed_file(filename):
 @app.route('/admin/logout/')
 def logout():
     session['logged_in'] = False
+    session['incorrect'] = False
     return redirect('/')
 
 
@@ -57,7 +61,7 @@ def check_id(id):
 
 def authenticate():
     '''Sends 401 response that enables authorization'''
-    return redirect('/admin/login/incorrect')
+    return redirect(request.path + '#openModal')
 
 
 def serve_pil_image(pil_img):
@@ -93,23 +97,35 @@ def home():
     if request.method == 'POST':
         uname = request.form['uname']
         pword = request.form['pword']
-        if not check_auth(uname, pword):
-            return authenticate()
-        session['logged_in'] = True
-        print(session.get('logged_in'))
-        return redirect('/admin/edit/')
+        print('uname: ' + uname + '\npword: ' + pword)
+        if check_auth(uname, pword):
+            session['logged_in'] = True
+            print(session.get('logged_in'))
+            return redirect('/admin/edit/')
+        flash('Incorrect Credentials')
+        return redirect("/home/#openModal")
     vets = []
     for vet in db.inventory.find({"featured": True}):
         vets.append(vet)
     return render_template('index.html', ppl=vets)  # renders index template
 
 
-@app.route('/vets/')
+@app.route('/vets/', methods=['GET', 'POST'])
 def vets():
     # gets all vets as a list
     vets = []
     for vet in db.inventory.find():
         vets.append(vet)
+    if request.method == 'POST':
+        uname = request.form['uname']
+        pword = request.form['pword']
+        print('uname: ' + uname + '\npword: ' + pword)
+        if check_auth(uname, pword):
+            session['logged_in'] = True
+            print(session.get('logged_in'))
+            return redirect('/admin/edit/')
+        flash('Incorrect Credentials')
+        return redirect("/vets/#openModal")
     return render_template('vets.html', ppl=vets)  # renders vets template
 
 
@@ -168,15 +184,11 @@ def login():
         uname = request.form['uname']
         pword = request.form['pword']
         if not check_auth(uname, pword):
-            return authenticate()
+            flash('Incorrect Credentials')
         session['logged_in'] = True
         print(session.get('logged_in'))
         return redirect('/admin/edit/')
-
-
-@app.route('/admin/login/incorrect')
-def login_inc():
-    return render_template('login.html', msg='Incorrect Credentials')
+    return redirect('/')
 
 
 @app.route('/admin/delete/<oid>')
@@ -222,4 +234,6 @@ def new():
 app.secret_key = "verysecret.jpg"
 if __name__ == '__main__':
     app.debug = True
-    app.run('0.0.0.0', int(os.environ.get('PORT', 5000)))
+    port = int(os.environ.get('PORT', 5000))
+    app.run('0.0.0.0', port)
+    #app.run('localhost', 5000)

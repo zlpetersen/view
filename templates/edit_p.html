@@ -5,7 +5,6 @@
     <script src="https://use.fontawesome.com/53ac9b564e.js"></script>
 {% endblock %}
 {% block content %}
-<a id="admin" href="/admin/edit">Back</a><br><br>
 <div class="container">
     <form action="/admin/edit/save/{{ ppl._id }}" method="post" enctype="multipart/form-data">
         Name:<br>
@@ -42,8 +41,9 @@
         <input type="file" name="file" accept="image/*" id="file">
         <label for="file" class="custom-file-upload">
             <i class="fa fa-arrow-up" aria-hidden="true"></i> Upload
-        </label><br><br>
-        <input type="submit" value="Submit">
+        </label><br><br><br>
+        <a class="formbtn" href="/admin/edit/">Cancel</a>
+        <input type="submit" value="Submit" style="width: 150px;">
     </form>
 </div>
 

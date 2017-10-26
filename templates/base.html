@@ -57,9 +57,14 @@
         </div>
         <div id="openModal" class="modalDialog" style="text-align: center;">
             <div id="modalWrapper">
+                <a href="#closeModal" title="Close" class="close">X</a><br>
                 <h2>Log In</h2>
-                <a href="#close" title="Close" class="close">X</a>
-                <form action="/admin/login/" method="POST" id="loginform">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}<p style="padding: 5px; color: red; border: 1px solid red; border-radius: 3px;">{{ message }}</p>{% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form {% if request.path == '/home/' %} action="/home/" {% else %} action="/vets/" {% endif %} method="POST" id="loginform">
                     <br><input style="width: 300px;" type="text" name="uname" placeholder="username"><br>
                     <br><input style="width: 300px;" type="password" name="pword" placeholder="password"><br>
                     <br><input style="width: 300px;" type="submit" class="formbtn" value="Log In">
