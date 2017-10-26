@@ -24,7 +24,7 @@ fs = GridFS(db)  # for getting images
 #app = Flask(__name__)  # inits flask server
 mongo = PyMongo(app)  # inits mongo server
 
-UPLOADED_PHOTOS_DEST = '/images/'
+UPLOADED_PHOTOS_DEST = '/tmp/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
 photos = UploadSet('photos', IMAGES)
