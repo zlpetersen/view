@@ -377,7 +377,7 @@ input[type=file]
 {
     max-width: 800px;
     width: 50%;
-    height: 50%;
+    height: 75%;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -416,7 +416,7 @@ input[type=file]
 	position: fixed;
 	text-align: center;
 	width: 480px;
-	right: -25%;
+	right: 25%;
 	text-decoration: none;
 	font-weight: bold;
 	-webkit-border-radius: 0px;
