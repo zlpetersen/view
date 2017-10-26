@@ -415,7 +415,8 @@ input[type=file]
 	line-height: 25px;
 	position: fixed;
 	text-align: center;
-	width: 48px;
+	width: 480px;
+	right: -25%;
 	text-decoration: none;
 	font-weight: bold;
 	-webkit-border-radius: 0px;
