@@ -51,7 +51,9 @@
             <div id="openModal{{ vet.id }}" class="modalDialog" style="text-align: center;" onclick="location.href='#close'">
                 <div class="modalWrapper">
                     <h3>Are You Sure?</h3>
-                    <a href="#close" title="Close" class="close">X</a>
+                    <div style="position: fixed;">
+                        <a style="position: relative; right: 25%; width: 45px;" href="#close" title="Close" class="close">X</a>
+                    </div>
                     <br><a href="#close" class="formbtn">Cancel</a>
                     <a href="/admin/delete/{{ vet._id }}" class="formbtn">Delete</a><br><br><br>
                 </div>
