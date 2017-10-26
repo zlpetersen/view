@@ -23,7 +23,9 @@
     </tr>
     <div id="openVet{{ vet.name }}Modal" class="vetDialog">
         <div id="modalWrapper">
-            <a href="#closeVet" title="Close" class="close">X</a><br><br>
+            <div style="position: fixed;">
+                <a style="position: relative; left: 200px;" href="#closeVet" title="Close" class="close">X</a><br><br>
+            </div>
             {% if vet.img != "" %}
             <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
             {% else %}
