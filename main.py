@@ -1,6 +1,6 @@
 import random
 import string
-import datetime
+from datetime import datetime
 
 from flask import Flask, render_template, send_file, Response, request, redirect, url_for, flash, abort, g, session
 from flask_pymongo import PyMongo
