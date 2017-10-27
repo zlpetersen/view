@@ -123,6 +123,8 @@ html
     text-align: right;
     float: right;
     padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
     margin-top: 0;
     background-color: #598cc0;
     border-radius: 3px;
