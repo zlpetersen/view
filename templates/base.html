@@ -3,25 +3,6 @@
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    <script>
-        function $(sel) {
-            return document.querySelector(sel);
-        }
-
-        var dialog = $('dialog');
-        var main = $('main');
-
-        ${'button').onclick = function() {
-            if (dialog.close) {
-                dialog.close();
-            }
-            else {
-                dialog.removeAttribute('open');
-            }
-
-            main.classList.remove('de-emphasized');
-        }
-    </script>
     {% endblock %}
 </head>
 <body>
@@ -41,13 +22,17 @@
     </div>
     <div class="footer">
         <div style="text-align: left; float: left;">
-            &copy;
-            <script type="text/javascript">
-                now = new Date()
-                theYear = now.getYear()
-                if (theYear < 1900) theYear += 1900
-                document.write(theYear)
-            </script> Zachary Petersen
+            <a id="admin" href="#openAboutModal">About</a>
+        </div>
+        <div id="openAboutModal" class="modalDialog" style="text-align: center;">
+            <div id="modalOtherWrapper">
+                <a href="#closeAbout" title="Close" class="close">X</a>
+                <div id="modalContent" class="modalOtherContent">
+                    <h2>Veteran Viewer</h2>
+                    <p>Featuring veterans that graduated from River Falls High School.
+                         <br><br><br>This app was created in 2017 by Zachary Petersen, graduating class of 2019</p>
+                </div>
+            </div>
         </div>
         {% if session['logged_in'] %}
         <div style="text-align: right;"><a id="admin" href="/admin/logout/">Log Out</a></div>
@@ -56,19 +41,21 @@
             <a id="admin" href="#openModal">Admin</a>
         </div>
         <div id="openModal" class="modalDialog" style="text-align: center;">
-            <div id="modalWrapper">
+            <div id="modalOtherWrapper">
                 <a href="#closeModal" title="Close" class="close">X</a><br>
-                <h2>Log In</h2>
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}<p style="padding: 5px; color: red; border: 1px solid red; border-radius: 3px;">{{ message }}</p>{% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <form {% if request.path == '/home/' %} action="/home/" {% else %} action="/vets/" {% endif %} method="POST" id="loginform">
-                    <br><input style="width: 300px;" type="text" name="uname" placeholder="username"><br>
-                    <br><input style="width: 300px;" type="password" name="pword" placeholder="password"><br>
-                    <br><input style="width: 300px;" type="submit" class="formbtn" value="Log In">
-                </form><br>
+                 <div id="modalContent" class="modalOtherContent" style="text-align: center;">
+                    <h2>Log In</h2>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}<p style="padding: 5px; color: red; border: 1px solid red; border-radius: 3px;">{{ message }}</p>{% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form {% if request.path == '/home/' %} action="/home/" {% else %} action="/vets/" {% endif %} method="POST" id="loginform">
+                        <br><input style="width: 300px;" type="text" name="uname" placeholder="username"><br>
+                        <br><input style="width: 300px;" type="password" name="pword" placeholder="password"><br>
+                        <br><input style="width: 300px;" type="submit" class="formbtn" value="Log In">
+                    </form><br>
+                </div>
             </div>
         </div>
         {% endif %}

@@ -148,11 +148,17 @@ table, th, td
     border: 1px solid #c3c3c3;
     border-collapse: collapse;
     padding: 15px;
+    text-align: left;
+}
+
+th
+{
+    height: 45px;
 }
 
 #nameth
 {
-    with: 25%;
+    width: 25%;
 }
 
 #yearth
@@ -345,6 +351,7 @@ input[type=file]
 {
     position: fixed;
     background: rgba(0, 0, 0, .8);
+    text-align: center;
     top: 0;
     right: 0;
     bottom: 0;
@@ -355,29 +362,33 @@ input[type=file]
     -moz-transition: opacity 200ms ease-in;
     transition: opacity 200ms ease-in;
     pointer-events: none;
+    display: none;
 }
 
 .modalDialog:target, .vetDialog:target, .newDialog:target
 {
     opacity: 1;
+    display: inline;
     pointer-events: auto;
 }
 
 .modalDialog > div
 {
-	width: 400px;
+	width: 320px;
+    height: 320px;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
 	border-radius: 1px;
 	background: #fff;
+    text-align: center;
 }
 
 .vetDialog > div
 {
     max-width: 800px;
     width: 50%;
-    height: 50%;
+    height: 800px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -387,11 +398,13 @@ input[type=file]
     max-height: calc(100vh - 210px);
     overflow-y: auto;
     overflow-x: hidden;
+    top: 0;
+    bottom: 0;
 }
 
 .newDialog > div
 {
-    width: 600px;
+    width: 800px;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -400,12 +413,41 @@ input[type=file]
     text-align: center;
 }
 
+.modalContent
+{
+	width: 50%;
+    height: 750px;
+    max-width: 800px;
+    max-height: calc(100vh - 250px);
+	position: fixed;
+	background: #fff;
+	overflow: auto; /*sets the text content of the modal dialog to scroll if needed*/
+}
+
+.modalOtherContent
+{
+    text-align: center;
+}
+
 .modalWrapper
 {
-    padding: 30px;
     text-align: center;
     background-color: #f3f3f3;
-    position: relative;
+    position: fixed;
+    margin: 41% auto;
+    height: 750px;
+    padding: 5px 20px 13px 20px;
+    border-radius: 3px;
+    max-height: calc(100vh - 250px);
+}
+
+.modalOtherWrapper
+{
+    text-align: center;
+    background-color: #f3f3f3;
+    position: fixed;
+    padding: 5px 20px 13px 20px;
+    border-radius: 3px;
 }
 
 .close
@@ -413,13 +455,17 @@ input[type=file]
 	background: #606061;
 	color: #FFFFFF;
 	line-height: 25px;
-	position: relative;
+	position: absolute;
+	right: 0;
 	text-align: center;
-	width: 48px;
+	top: 0;
+	width: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
 	text-decoration: none;
 	font-weight: bold;
-	-webkit-border-radius: 0px;
-	-moz-border-radius: 0px;
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
 	border-radius: 1px;
 }
 

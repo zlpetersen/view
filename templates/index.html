@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><title>Home</title>{% endblock %}
 {% block content %}
 <h1>Featured</h1>
 {% for vet in ppl %}
@@ -14,15 +14,18 @@
     <div id="openVet{{ vet.name }}Modal" class="vetDialog">
         <div id="modalWrapper">
             <a href="#closeVet" title="Close" class="close">X</a>
-            <br><br>{% if vet.img != "" %}
-            <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
-            {% else %}
-            <img src="/image/no_image.jpg" alt="No Image"/>
-            {% endif %}
-            <h3>{{ vet.name }}</h3>
-            <p>{{ vet.bio }}</p>
-            <p>Branch: {{ vet.branch }}</p>
-            <p>Graduating Year: {{ vet.year }}</p>
+            <br><br>
+            <div id="modalContent" class="modalContent">
+                {% if vet.img != "" %}
+                <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
+                {% else %}
+                <img src="/image/no_image.jpg" alt="No Image"/>
+                {% endif %}
+                <h3>{{ vet.name }}</h3>
+                <p>{{ vet.bio }}</p>
+                <p>Branch: {{ vet.branch }}</p>
+                <p>Graduating Year: {{ vet.year }}</p>
+            </div>
         </div>
     </div>
     <div class="desc">{{ vet.name }}</div>

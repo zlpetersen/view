@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block head %}
-    <title>Veterans</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='sorttable.js') }}" type="text/javascript"></script>
-{% endblock %}
+    <title>Veterans</title>{% endblock %}
 {% block content %}
 <h2>Veterans</h2>
 <table id="vlist" style="width: 100%; cursor: pointer;" class="sortable">
@@ -17,24 +16,24 @@
     <tbody>
     {% for vet in ppl %}
     <tr onclick="location.href='#openVet{{ vet.name }}Modal'"><!--onclick="location.href='/vets/{{ vet.id }}'">-->
-        <td>{{ vet.name }}</td>
-        <td>{{ vet.year }}</td>
-        <td>{{ vet.branch }}</td>
+        <td id="nameth">{{ vet.name }}</td>
+        <td id="yearth">{{ vet.year }}</td>
+        <td id="branchth">{{ vet.branch }}</td>
     </tr>
     <div id="openVet{{ vet.name }}Modal" class="vetDialog">
-        <div style="position: fixed;">
-            <a href="#closeVet" title="Close" class="close">X</a><br><br>
-        </div>
         <div id="modalWrapper">
-            {% if vet.img != "" %}
-            <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
-            {% else %}
-            <img src="/image/no_image.jpg" alt="No Image"/>
-            {% endif %}
-            <h3>{{ vet.name }}</h3>
-            <p>{{ vet.bio }}</p>
-            <p>Branch: {{ vet.branch }}</p>
-            <p>Graduating Year: {{ vet.year }}</p>
+            <a href="#closeVet" title="Close" class="close">X</a><br><br>
+            <div class="modalContent">
+                {% if vet.img != "" %}
+                <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
+                {% else %}
+                <img src="/image/no_image.jpg" alt="No Image"/>
+                {% endif %}
+                <h3>{{ vet.name }}</h3>
+                <p>{{ vet.bio }}</p>
+                <p>Branch: {{ vet.branch }}</p>
+                <p>Graduating Year: {{ vet.year }}</p>
+            </div>
         </div>
     </div>
     {% endfor %}

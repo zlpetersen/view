@@ -8,10 +8,10 @@
 <nav id="navbar">
 <a href="#openNewModal" style="background-color: #e3e3e3; border-radius: 2px;" id="newt">New</a>
 <div id="openNewModal" class="newDialog" style="text-align: center;">
-    <div class="modalWrapper">
+    <div class="modalOtherWrapper" style="width: 600px;">
         <h3>New</h3>
         <a href="#closeNewModal" title="Close" class="close">X</a>
-        <div class="container">
+        <div class="modalOtherContent" style="width: 600px;">
             <div class="left-div left-text" style="height: 125px;">
                 <p>Create with only name</p>
                 <form action="/admin/new/" method="POST">
@@ -45,18 +45,20 @@
         <td>{{ vet.name }}</td>
         <td>{{ vet.year }}</td>
         <td>{{ vet.branch }}</td>
-        <th><a href="/admin/edit/{{ vet._id }}" class="btn">Edit</a></th>
-        <th>
+        <td><a href="/admin/edit/{{ vet._id }}" class="btn">Edit</a></td>
+        <td>
             <a href="#openModal{{ vet.id }}" class="btn">Delete</a>
             <div id="openModal{{ vet.id }}" class="modalDialog" style="text-align: center;" onclick="location.href='#close'">
-                <div class="modalWrapper">
-                    <h3>Are You Sure?</h3>
-                    <a href="#close" title="Close" class="close">X</a>
-                    <br><a href="#close" class="formbtn">Cancel</a>
-                    <a href="/admin/delete/{{ vet._id }}" class="formbtn">Delete</a><br><br><br>
-                </div>
+                <div class="modalOtherWrapper" style="height: 150px;">
+                    <a href="#close" name="Close" class="close">X</a>
+                    <div class="modalOtherContent">
+                        <h3>Are You Sure?</h3>
+                        <br><a href="#close" class="formbtn">Cancel</a>
+                        <a href="/admin/delete/{{ vet._id }}" class="formbtn">Delete</a><br><br><br>
+                    </div>
+                    </div>
             </div>
-        </th>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
