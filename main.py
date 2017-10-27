@@ -153,7 +153,7 @@ def edit_p(oid):
     if not session.get('logged_in'): return redirect('/admin/login/')
     yrs = []
     print(now.year)
-    for i in range(1887, now.year):
+    for i in range(1887, now.year + 1):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('edit_p.html', ppl=db.inventory.find_one({"_id": ObjectId(oid)}), yrs=yrs, branches=branches)
@@ -231,7 +231,7 @@ def new():
         return redirect('/admin/edit/')
     yrs = []
     print(now.year)
-    for i in range(1887, now.year):
+    for i in range(1887, now.year + 1):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('new.html', yrs=yrs, branches=branches)
