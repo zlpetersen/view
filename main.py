@@ -227,7 +227,7 @@ def new():
                                     {'$set': {'img': filename}})
         return redirect('/admin/edit/')
     yrs = []
-    for i in range(1900, 2017):
+    for i in range(1887, datetime.now().year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('new.html', yrs=yrs, branches=branches)
