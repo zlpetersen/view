@@ -32,6 +32,8 @@ photos = UploadSet('photos', IMAGES)
 
 configure_uploads(app, (photos,))
 
+now = datetime.now()
+
 with app.app_context():
     login_code = setattr(g, 'user', 0)
     db.inventory.update_one({'account': True}, {'$set': {'id': -1}})
@@ -150,7 +152,7 @@ def edit():
 def edit_p(oid):
     if not session.get('logged_in'): return redirect('/admin/login/')
     yrs = []
-    for i in range(1887, datetime.now().year):
+    for i in range(1887, now.year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('edit_p.html', ppl=db.inventory.find_one({"_id": ObjectId(oid)}), yrs=yrs, branches=branches)
@@ -227,7 +229,7 @@ def new():
                                     {'$set': {'img': filename}})
         return redirect('/admin/edit/')
     yrs = []
-    for i in range(1887, datetime.now().year):
+    for i in range(1887, now.year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('new.html', yrs=yrs, branches=branches)
