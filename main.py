@@ -1,5 +1,6 @@
 import random
 import string
+import datetime
 
 from flask import Flask, render_template, send_file, Response, request, redirect, url_for, flash, abort, g, session
 from flask_pymongo import PyMongo
@@ -149,7 +150,7 @@ def edit():
 def edit_p(oid):
     if not session.get('logged_in'): return redirect('/admin/login/')
     yrs = []
-    for i in range(1900, 2017):
+    for i in range(1887, datetime.now().year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
     return render_template('edit_p.html', ppl=db.inventory.find_one({"_id": ObjectId(oid)}), yrs=yrs, branches=branches)
