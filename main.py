@@ -152,6 +152,7 @@ def edit():
 def edit_p(oid):
     if not session.get('logged_in'): return redirect('/admin/login/')
     yrs = []
+    print(now.year)
     for i in range(1887, now.year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
@@ -229,6 +230,7 @@ def new():
                                     {'$set': {'img': filename}})
         return redirect('/admin/edit/')
     yrs = []
+    print(now.year)
     for i in range(1887, now.year):
         yrs.append(i)
     branches = ["Air Force", "Army", "Coast Guard", "Marines", "Navy"]
