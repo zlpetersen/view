@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><title>Home</title>{% endblock %{
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
 {% block content %}
 <h1>Featured</h1>
 {% for vet in ppl %}
@@ -13,9 +13,7 @@
     </a>
     <div id="openVet{{ vet.name }}Modal" class="vetDialog">
         <div id="modalWrapper">
-            <div style="position: fixed;">
-                <a style="position: relative; right: 25%; width: 45px;" href="#closeVet" title="Close" class="close">X</a>
-            </div>
+            <a href="#closeVet" title="Close" class="close">X</a>
             <br><br>{% if vet.img != "" %}
             <img src="/image/{{ vet.img }}" alt="{{ vet.name }}"/>
             {% else %}

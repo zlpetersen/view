@@ -377,14 +377,14 @@ input[type=file]
 {
     max-width: 800px;
     width: 50%;
-    height: 75%;
+    height: 50%;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
     border-radius: 2px;
     background: #fff;
     text-align: center;
-    max-height: calc(100vh - 110px);
+    max-height: calc(100vh - 210px);
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -413,10 +413,9 @@ input[type=file]
 	background: #606061;
 	color: #FFFFFF;
 	line-height: 25px;
-	position: fixed;
+	position: relative;
 	text-align: center;
-	width: 480px;
-	right: 25%;
+	width: 48px;
 	text-decoration: none;
 	font-weight: bold;
 	-webkit-border-radius: 0px;
