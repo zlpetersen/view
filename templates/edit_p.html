@@ -38,13 +38,37 @@
         {% endif %}
         <label for="featured">Featured</label><br><br>
         Veteran Image:<br>
-        <input type="file" name="file" accept="image/*" id="file">
-        <label for="file" class="custom-file-upload">
-            <i class="fa fa-arrow-up" aria-hidden="true"></i> Upload
-        </label><br><br><br>
+        <div style="margin: auto; padding: 5px; border: 2px solid #ccc; border-radius: 4px; width: 50%; ">
+        <br />Veteran Image:
+            <div style="padding: 45px 0 30px 0; color: #598cc0; font-size: 12px; font-style: italic; font-family: Arial, sans-serif;">
+                <img src="" height="200" alt="[No image selected yet...]"><br /><br />
+                <input type="file" name="file" accept="image/*" id="file" onchange="previewFile()">
+            </div>
+
+            <label for="file" class="custom-file-upload">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i> Select Image
+            </label><br /><br />
+        </div><br><br><br>
         <a class="formbtn" href="/admin/edit/">Cancel</a>
         <input type="submit" value="Submit" style="width: 150px;">
     </form>
 </div>
+<script>
+    function previewFile() {
+      var preview = document.querySelector('img');
+      var file    = document.querySelector('input[type=file]').files[0];
+      var reader  = new FileReader();
+
+      reader.onloadend = function () {
+        preview.src = reader.result;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "";
+      }
+    }
+</script>
 
 {% endblock %}

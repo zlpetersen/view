@@ -3,6 +3,7 @@
     <title>Edit</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='sorttable.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
 {% endblock %}
 {% block content %}
 <nav id="navbar">
@@ -30,6 +31,7 @@
     </div>
 </div>
     <h1>Add or Edit Veteran Listings</h1>
+<input type="text" id="search" placeholder="Search..." style="margin-top: 0;">
 <table id="vlistedit" style="width: 100%; cursor: default;" class="sortable">
     <thead>
     <tr style="background-color: #ebebeb;">
@@ -63,4 +65,28 @@
     {% endfor %}
     </tbody>
 </table>
+<script>
+    var $rows = $('#vlistedit tbody tr');
+    $('#search').keyup(function() {
+
+        var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+            reg = RegExp(val, 'i'),
+            text;
+
+        $rows.show().filter(function() {
+            text = $(this).text().replace(/\s+/g, ' ');
+            return !reg.test(text);
+        }).hide();
+    });
+    var checkScrollBars = function(){
+        var b = $('body');
+        var normalw = 0;
+        var scrollw = 0;
+        if(b.prop('scrollHeight')>b.height()){
+            normalw = window.innerWidth;
+            scrollw = normalw - b.width();
+            $('.vetDialog').css({marginRight:'-'+scrollw+'px'});
+        }
+    }
+</script>
 {% endblock %}

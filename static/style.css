@@ -388,9 +388,9 @@ input[type=file]
 
 .vetDialog > div
 {
-    max-width: 800px;
-    width: 50%;
-    height: 800px;
+    max-width: 95vh;
+    width: 90%;
+    height: 95vh;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
