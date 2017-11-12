@@ -54,7 +54,7 @@ def logout():
 
 def check_auth(uname, pword):
     '''Checks username and password against existing ones'''
-    return uname == 'admin' and pword == 'secret'
+    return uname == 'admin' and pword == 'wildcat1'
 
 
 def check_id(id):
