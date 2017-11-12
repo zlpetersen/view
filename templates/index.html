@@ -2,6 +2,7 @@
 {% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><title>Home</title>{% endblock %}
 {% block content %}
 <h1>Featured</h1>
+{% if (ppl is defined) and ppl %}
 {% for vet in ppl %}
 <div class="gallery" style="display: inline-block; margin: 5px; border: 1px solid #ccc; float: left;">
     <a href="#openVet{{ vet.name }}Modal">
@@ -31,4 +32,8 @@
     <div class="desc">{{ vet.name }}</div>
 </div>
 {% endfor %}
+{% else %}
+<h5>Nothing here right now.</h5>
+{% endif %}
 {% endblock %}
+
