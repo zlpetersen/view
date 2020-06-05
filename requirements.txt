@@ -9,7 +9,7 @@ cx-Freeze==5.0.1
 Cython==0.25.2
 debug==0.3.2
 decorator==4.1.2
-Django==1.11.6
+Django==1.11.29
 flake8==3.5.0
 Flask==0.12.2
 Flask-Login==0.4.0
