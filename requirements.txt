@@ -30,7 +30,7 @@ olefile==0.44
 packaging==16.8
 pew==1.1.0
 pickleshare==0.7.4
-Pillow==4.2.1
+Pillow==8.3.2
 pipenv==8.2.7
 postgres==2.2.1
 prompt-toolkit==1.0.15
