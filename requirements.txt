@@ -17,7 +17,7 @@ Flask-PyMongo==0.5.1
 Flask-Uploads==0.2.1
 idna==2.6
 ipdb==0.10.3
-ipython==6.1.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 itsdangerous==0.24
 jedi==0.10.2
